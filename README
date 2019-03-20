@@ -1,3 +1,6 @@
+*This repository started  as a clone of https://bitbucket.org/berkeleylab/feba and is prone to undergo substantial modifications.
+All future modifications will respect the intellectual property and copyright as expressed in the license (GPL-v2) file.*
+
 Scripts for Estimating Mutant Fitness By Sequencing Randomly Barcoded
 Transposons (RB-TnSeq)
 

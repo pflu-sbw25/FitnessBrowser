@@ -51,10 +51,10 @@ my $file1 = "$prefix.1";
 my $file2 = "$prefix.2";
 my $alnfile = "$prefix.aln";
 
-my $fastacmd = '../bin/blast/fastacmd';
+my $fastacmd = 'bin/blast/fastacmd';
 die "No such command: $fastacmd" unless -x $fastacmd;
 
-my $bl2cmd = '../bin/blast/bl2seq';
+my $bl2cmd = 'bin/blast/bl2seq';
 die "No such command: $bl2cmd" unless -x $bl2cmd;
 
 print

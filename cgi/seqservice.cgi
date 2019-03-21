@@ -37,7 +37,7 @@ my $cgi=CGI->new;
 if ($cgi->param('wrap') && $cgi->param('html')) {
     print $cgi->header('text/html');
 } else {
-    print $cgi->header(-type => 'text/plain',  
+    print $cgi->header(-type => 'text/plain',
                        # allow cross-site scripts to use this
                        -access_control_allow_origin => '*');
 }
@@ -63,7 +63,7 @@ if (defined $maxhits && $maxhits > 0) {
 
 my $debug = $cgi->param('debug');
 
-my $base = "../cgi_data/ublast_service";
+my $base = "cgi_data/ublast_service";
 die "No such directory: $base" unless -d $base;
 
 my $len = length($seq);
@@ -209,7 +209,7 @@ if ($html) {
         }
         last if $useful;
     }
-    print join("<BR>",@pieces) 
+    print join("<BR>",@pieces)
         . qq{ (<A HREF="$blastURL" TITLE="view all hits">more</A>)} . "\n";
 }
 

@@ -67,11 +67,11 @@ print header,
       submit( { -style => 'position: absolute; text-align: left; float: none; display:inline;' , -name => "Search" })),
     end_form;
 
-my $dir = "../job_data/$jobId"; # get_batch_dbh ensures its validity
+my $dir = "job_data/$jobId"; # get_batch_dbh ensures its validity
 
 print small(br(),
             p("The analysis was run on ",
-              `date -r ../job_data/$jobId/hits`,
+              `date -r job_data/$jobId/hits`,
               "- you can",
               a({-href=>"batch_blast.cgi?jobId=$jobId"}, "rerun the analysis")));
 Utils::endHtml($cgi);

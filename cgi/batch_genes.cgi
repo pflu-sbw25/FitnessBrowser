@@ -61,7 +61,7 @@ if (defined $searchSpec && $searchSpec =~ m/\S/) {
     $searchSpec =~ s/^\s+//;
     $searchSpec =~ s/\s+$//;
     $searchSpec =~ s/[\"\n\r]//g;
-    
+
     push @where, qq{queryId = "$searchSpec"
                    OR desc = "$searchSpec" OR desc LIKE "$searchSpec %"
                    OR desc LIKE "% $searchSpec" OR desc LIKE "% $searchSpec %"};

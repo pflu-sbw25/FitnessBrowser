@@ -48,7 +48,7 @@ sub start_page($) {
     <!DOCTYPE html>
     <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
     <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rev="made" href="mailto:morgannprice%40yahoo.com" />
     <title>$title</title>
     <meta name="copyright" content="copyright 2015 UC Berkeley" />
@@ -69,7 +69,7 @@ sub start_page($) {
         <li><a href="orgAll.cgi">Organisms</a></li>
         <li><a href="help.cgi">Help</a></li>
         </div></div>
-      
+
     <div id="main">
 EOT
     return $header;
@@ -197,16 +197,16 @@ sub fractioncolor($) {
 }
 
 sub get_dbh() {
-    my $database = "../cgi_data/feba.db";
+    my $database = "cgi_data/feba.db";
     return DBI->connect("dbi:SQLite:dbname=$database","","",{ RaiseError => 1 }) || die $DBI::errstr;
 }
 
 sub blast_db() {
-    return "../cgi_data/aaseqs";
+    return "cgi_data/aaseqs";
 }
 
 sub tmp_dir() {
-    return "../tmp";
+    return "tmp";
 }
 
 ####
@@ -293,7 +293,7 @@ sub matching_genes($$$) {
                 sysName = "$geneSpec" OR sysName LIKE "$geneSpec"
                 OR gene = "$geneSpec" OR gene LIKE "$geneSpec"
                 OR locusId = "$geneSpec"
-                OR desc LIKE "% $geneSpec" OR desc LIKE "$geneSpec %" OR desc LIKE "% $geneSpec %")                
+                OR desc LIKE "% $geneSpec" OR desc LIKE "$geneSpec %" OR desc LIKE "% $geneSpec %")
          $orgClause
          ORDER BY genus, species, strain, locusId, sysName, gene, begin, end, desc;};
          # die $sql;
@@ -314,7 +314,7 @@ sub matching_exact($$$) {
              WHERE (
                 sysName = "$geneSpec" OR sysName LIKE "$geneSpec"
                 OR gene = "$geneSpec" OR gene LIKE "$geneSpec"
-                OR locusId = "$geneSpec")             
+                OR locusId = "$geneSpec")
          $orgClause
          ORDER BY genus, species, strain, locusId, sysName, gene, begin, end, desc
          LIMIT 100;};
@@ -407,7 +407,7 @@ sub matching_seed_descs($$$) {
                 OR seed_desc LIKE "$geneSpec,%" OR seed_desc LIKE "% $geneSpec,%"
                 )
          $orgClause
-         ORDER BY genus, species, strain, locusId, sysName, gene, begin, end, seed_desc 
+         ORDER BY genus, species, strain, locusId, sysName, gene, begin, end, seed_desc
          LIMIT 100;};
     return $dbh->selectall_arrayref($sql, { Slice => {} });
 }
@@ -462,7 +462,7 @@ sub matching_domains($$$) {
     my $sql = qq{SELECT DISTINCT genus, species, strain, orgId, locusId, sysName, gene, domainId, domainName, desc from Gene JOIN Organism USING (orgId) JOIN GeneDomain USING (orgId, locusId)
              WHERE (
                 domainId = "$geneSpec" OR domainId LIKE "$geneSpec"
-                OR domainName = "$geneSpec" OR domainName LIKE "$geneSpec")                
+                OR domainName = "$geneSpec" OR domainName LIKE "$geneSpec")
          $orgClause
          ORDER BY genus, species, strain, locusId, sysName, gene, domainId, domainName
          LIMIT 100;};
@@ -573,7 +573,7 @@ sub tabsGene($$$$$$$) {
     $code .= qq[</div><div id="tabcontent">];
 
     return $code;
-    
+
 
 #     my @links = ();
 #     if ($gene->{locusId} =~ m/^\d+$/) {
@@ -687,14 +687,14 @@ sub geneArrows($$$$) {
         <!-- triangle pointing left (-x) -->
         <path d='M0,2 L2,0 L2,4 Z' fill="red"/>
     </marker>
-    <marker id="scaleEnd" orient="auto" 
+    <marker id="scaleEnd" orient="auto"
         markerWidth='2' markerHeight='4'
         refX='0.5' refY='2'>
         <line x1="0" y1="5" x2="0" y2="-5" style="stroke: black;"/>
     </marker>
     </defs>
 
-    <line 
+    <line
         id='scale'
         marker-start='url(#scaleEnd)'
         marker-end='url(#scaleEnd)'
@@ -766,7 +766,7 @@ sub geneArrows($$$$) {
 }
 
 sub site_intro_text {
-    if (-e "../motd") {
+    if (-e "motd") {
         open(MOTD, "<", "../motd");
         my @lines = <MOTD>;
         close(MOTD);

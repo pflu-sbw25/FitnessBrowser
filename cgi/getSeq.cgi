@@ -33,7 +33,7 @@ my $timestamp = int (gettimeofday * 1000);
 my $filename = $procId . $timestamp;
 my $tmpDir = Utils::tmp_dir();
 my $seqFile = "$tmpDir/$filename.fasta";
-my $blast = '../bin/blast/blastall';
+my $blast = 'bin/blast/blastall';
 my $myDB = Utils::blast_db(); # sequence database
 my $blastOut = "$tmpDir/$filename.blast.out";
 my $blastSort = "$tmpDir/$filename.blast.sort";
@@ -50,7 +50,7 @@ my $gene = $dbh->selectrow_hashref("SELECT * FROM Gene WHERE orgId=? AND locusId
 Utils::fail($cgi,"unknown gene") unless defined $gene->{locusId};
 Utils::fail($cgi,"sequence information is only available for protein-coding genes.") unless $gene->{type} == 1;
 
-my $fastacmd = '../bin/blast/fastacmd';
+my $fastacmd = 'bin/blast/fastacmd';
 my $id = join(":",$orgId,$locusId);
 system($fastacmd,'-d',$myDB,'-s',$id,'-o',$seqFile)==0 || die "Error running $fastacmd -d $myDB -s $id -o $seqFile -- $!"; #error
 

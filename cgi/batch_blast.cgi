@@ -45,7 +45,7 @@ if (defined $jobId && !defined $confirm) {
           a({-href=>"batch_blast.cgi?jobId=$jobId&confirm=1"}, "here."));
 } elsif (defined $jobId) { # Rerun the job
     $jobId =~ m/^[0-9a-zA-Z_:-]+$/ || die "Invalid jobId $jobId";
-    my $dir = "../job_data/$jobId";
+    my $dir = "job_data/$jobId";
     die "Unknown job $jobId" unless -d $dir;
     die "No query file for this job" unless -e "$dir/query.faa";
     my $bdb = Batch::get_batch_dbh($jobId);
@@ -73,8 +73,8 @@ if (defined $jobId && !defined $confirm) {
         end_form();
     my $exampleId = "27feb3f720f0536e0fbb1408512c8741";
     my $exampleName = "Pseudomonas putida KT2440";
-    if (-e "../job_data/$exampleId/job.db") {
-        print p(br(), 
+    if (-e "job_data/$exampleId/job.db") {
+        print p(br(),
                 "To see what the output will be like, see the",
                 a({-href => "batch_overview.cgi?jobId=$exampleId"}, "results for $exampleName,"),
                 "including a list of",
@@ -115,7 +115,7 @@ if (defined $jobId && !defined $confirm) {
     print p("Read $nSeq sequences, ", sprintf("%.2f", $bytes/1e6), " MB"), "\n";
 
     $jobId = md5_hex(@lines);
-    my $dir = "../job_data/$jobId";
+    my $dir = "job_data/$jobId";
     if (-d $dir) {
         print p("This file has been processed by Fitness BLAST already!");
         if (! -e "$dir/job.db") {
@@ -126,7 +126,7 @@ if (defined $jobId && !defined $confirm) {
     } else {
         # compute results
         my $faa = "$dir/query.faa";
-        mkdir("../job_data/$jobId");
+        mkdir("job_data/$jobId");
         system("chmod","a+w",$dir);
         open(FAA, ">", $faa) || die "Cannot write to $faa";
         foreach my $line (@lines) {
@@ -141,7 +141,7 @@ if (defined $jobId && !defined $confirm) {
 sub ProcessJob($) {
     autoflush STDOUT 1; # so preliminary results appear
     my ($jobId) = @_;
-    my $dir = "../job_data/$jobId";    
+    my $dir = "job_data/$jobId";
     my $faa = "$dir/query.faa";
     my %parse = ReadFastaDesc($faa);
     if (exists $parse{error}) {
@@ -150,7 +150,7 @@ sub ProcessJob($) {
         exit(0);
     }
     print p("Parsed input OK"),"\n";
-    
+
     my $desc = $parse{desc};
     foreach my $name (keys %$desc) {
         unless ($name =~ m/^[0-9A-Za-z._-|]+$/) {
@@ -163,22 +163,22 @@ sub ProcessJob($) {
     print p("Checked headers"),"\n";
     print p("Running usearch..."), "\n";
 
-    my $usearch = "../bin/usearch";
+    my $usearch = "bin/usearch";
     die "No executable in $usearch" unless -x $usearch;
 
-    my $udbfile = "../cgi_data/aaseqs.udb";
+    my $udbfile = "cgi_data/aaseqs.udb";
     die "No such file: $udbfile" unless -e $udbfile;
     my $code = system("nice $usearch -threads 16 -ublast $faa -db $udbfile -maxhits 50 -maxaccepts 50 -blast6out $dir/hits.tmp -evalue 0.001 >& $dir/usearch.log");
     if ($code != 0) {
         print p("Sorry, usearch failed. Please check your input file");
         exit(0);
     }
-    
+
     print p("usearch succeeded, now building a database..."),"\n";
     rename("$dir/hits.tmp","$dir/hits");
     # This script rewrites the new db to a temporary file and then renames it, so do not have to worry about
     # other requests seeing the incomplete database
-    $code = system("nice ../bin/batch_setup_tables.pl -db ../cgi_data/feba.db -dir $dir -aaseqs ../cgi_data/aaseqs >& $dir/setup.log");
+    $code = system("nice bin/batch_setup_tables.pl -db cgi_data/feba.db -dir $dir -aaseqs cgi_data/aaseqs >& $dir/setup.log");
     if ($code != 0) {
         print p("Sorry, building the database failed for $jobId.",
                 "Please contact the system administrators.",

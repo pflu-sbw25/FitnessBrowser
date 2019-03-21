@@ -74,7 +74,7 @@ if ($zoom eq "in") {
 }
 my $pan = $cgi->param('pan') || "";
 if ($pan eq "left") {
-    
+
     $begin -= 0.4 * $initwidth;
     $end -= 0.4 * $initwidth;
 } elsif ($pan eq "right") {
@@ -144,7 +144,7 @@ if ($help) {
         <b><u>About this page:</u></b><BR><ul>
         <li>View the fitness of genes in various strains under a condition.</li>
         <li> Data on + strands are colored green, data on - strands are colored red, and data not affiliated with a gene are colored gray. Hover on points or blue links to see more information. Use the buttons to navigate the genome.</li>
-        <li>To get to this page, click on the colored fitness boxes across the site (mostly on any pages relating to genes).</li> 
+        <li>To get to this page, click on the colored fitness boxes across the site (mostly on any pages relating to genes).</li>
         </ul></div>];
     }
 
@@ -161,13 +161,13 @@ if ($help) {
         p({-class => "buttons", style=>"max-width:500px; line-height:40px; white-space:nowrap;"},
           "Zoom:", submit('zoom','in'), submit('zoom','out'), "\tPan:", submit('pan','left'), submit('pan','right')),
         end_form;
-    print 
+    print
         p(small(qq{Only strains with sufficient reads to estimate fitness are shown,
                    but the strain fitness values are still rather noisy and may be biased towards zero.
                    Strains near the edge of a gene are not shown as being associated with that
                    gene (they are in grey).}))
         if scalar(@expNames) > 0;
-    
+
 
   if (@$genes == 0) {
       print "No genes in range.";
@@ -186,7 +186,7 @@ my $tsvUrl = "strainTable.cgi?tsv=1&orgId=" . $orgId . "&scaffoldId=" . $scaffol
 
 
 # should I add zoom in/out and pan left/right buttons??
-my $rows = StrainFitness::GetStrainFitness("../cgi_data", $dbh, $orgId, $scaffoldId, $begin, $end);
+my $rows = StrainFitness::GetStrainFitness("cgi_data", $dbh, $orgId, $scaffoldId, $begin, $end);
 
 if (@$rows == 0) {
     print "No fitness data for strains in range " . Utils::commify($begin) . " to " . Utils::commify($end) . "\n";
@@ -223,7 +223,7 @@ if (scalar(@expNames)==0) {
 }
 
 # add row of links for removing items
-my @remove_row = map { td("") } @base_headings; # 
+my @remove_row = map { td("") } @base_headings; #
 my $baseURL = "strainTable.cgi?orgId=$orgId&scaffoldId=$scaffoldId&begin=$begin&end=$end";
 foreach my $expName (@expNames) {
     my @otherExps = grep { $_ ne $expName } @expNames;
@@ -253,7 +253,7 @@ foreach my $row (@$rows) {
         );
     @row = map { td($_) } @row;
     my $totalFit = 0; #gather the total for averaging
-    my $ind = 0; #gather number of entries 
+    my $ind = 0; #gather number of entries
     foreach my $expName (@expNames) {
         my $fit = $row->{ $expName };
         $totalFit += $fit;
@@ -423,8 +423,8 @@ var tooltip = d3.select("body").append("div")
       .attr("r", 5)
       .attr("cx", function(d) { return x(d.position); })
       .attr("cy", function(d) { return y(d.fit); })
-      .style("fill", function(d) { 
-        if (d.strand == '-'){return "red"} 
+      .style("fill", function(d) {
+        if (d.strand == '-'){return "red"}
         else {return "green"}
         ; })
       .on("mouseover", function(d) {
@@ -472,7 +472,7 @@ var tooltip = d3.select("body").append("div")
 
 END
 ;
-    
+
 print h3("Per-strain Table"), small(table({ cellspacing => 0, cellpadding => 3, }, @trows));
 
 print p("Or see this region's",

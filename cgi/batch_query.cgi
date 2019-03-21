@@ -40,7 +40,7 @@ my $qinfo = $bdb->selectrow_hashref("SELECT * FROM Query WHERE queryId=?", {}, $
 die "Invalid queryId" unless $qinfo->{queryId} eq $queryId;
 
 my $queryURL = undef;
-$queryURL = "http://www.microbesonline.org/cgi-bin/fetchLocus.cgi?locus=$1" 
+$queryURL = "http://www.microbesonline.org/cgi-bin/fetchLocus.cgi?locus=$1"
     if $queryId =~ m/^VIMSS(\d+)$/;
 
 print header,
@@ -129,7 +129,7 @@ END
                         my $col = $row->{minFit} < 0 ? "darkblue" : "darkgoldenrod";
                         my $group = ($row->{expGroup} eq "carbon source" ? " (C)" :
                                      ($row->{expGroup} eq "nitrogen source" ? " (N)" : ""));
-                        push @specs, span({-style => "color: $col", 
+                        push @specs, span({-style => "color: $col",
                                            -title => sprintf("fitness %.1f to %.1f", $row->{minFit}, $row->{maxFit}) },
                                            $row->{condition} . $group);
                     }
@@ -238,7 +238,7 @@ END
                                       td($group),
                                       td(small($orginfo->{$orgId}{genome})),
                                       td(sprintf("%.0f%%", $qOrthId{$orgId})),
-                                      td(small(a({-href => $url1}, $id1))), 
+                                      td(small(a({-href => $url1}, $id1))),
                                       td(small(encode_entities($desc1))),
                                       td(small(a({-href => $url2}, $id2))),
                                       td(small(encode_entities($desc2))),

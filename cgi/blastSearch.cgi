@@ -5,7 +5,7 @@
 ## Copyright (c) 2015 University of California
 ##
 ## Authors:
-## Victoria Lo, Wenjun Shao (wjshao@berkeley.edu), and 
+## Victoria Lo, Wenjun Shao (wjshao@berkeley.edu), and
 ## Morgan Price
 #######################################################
 #
@@ -38,7 +38,7 @@ print header, $start,
         h2("Search by Gene Sequence"),
       Utils::site_intro_text(),
         start_form( -class => 'search', -name    => 'input', -method  => 'POST', -action  => 'mySeqSearch.cgi' ),
-        p("Choose query type: ", 
+        p("Choose query type: ",
           popup_menu( -name => 'qtype', -values => [ 'protein', 'nucleotide' ], -default => 'protein' )),
         p("Enter a sequence in FASTA or Uniprot format: ",
           br(),

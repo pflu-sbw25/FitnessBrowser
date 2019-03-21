@@ -52,7 +52,7 @@ if (@$reanno > 0) {
     print LIST join(":", $row->{orgId}, $row->{locusId}) . "\n";
   }
   close(LIST) || die "Error writing to $listFile";
-  my $fastacmd = '../bin/blast/fastacmd';
+  my $fastacmd = 'bin/blast/fastacmd';
   system($fastacmd, '-d', $myDB, '-i', $listFile, '-o', $faaFile) == 0
     || die "Error running $fastacmd -- $!";
   $aaseqs = FEBA_Utils::ReadFasta($faaFile);

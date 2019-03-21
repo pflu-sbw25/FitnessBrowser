@@ -60,8 +60,9 @@ my $tmpDir = Utils::tmp_dir();
 my $seqFile = "$tmpDir/$orgId+$locusId.fasta";
 my $myDB = Utils::blast_db();
 my $id = join(":",$orgId,$locusId);
-my $fastacmd = '../bin/blast/fastacmd';
+my $fastacmd = 'bin/blast/fastacmd';
 system($fastacmd,'-d',$myDB,'-s',$id,'-o',$seqFile)==0 || die "Error running $fastacmd -d $myDB -s $id -o $seqFile -- $!";
+#system($fastacmd)==0 || die "Error running $fastacmd -- $!";
 my $in = Bio::SeqIO->new(-file => $seqFile,-format => 'fasta');
 my $seq = $in->next_seq()->seq;
 my $seqLen = length($seq);
@@ -100,7 +101,7 @@ if (@$cond == 0) {
     my @trows = ( Tr({ -valign => 'top', -align => 'center' }, map { th($_) } \@headings) );
     foreach my $row (@$cond) {
         # display result row by row
-        my $len = $row->{end}-$row->{begin}; 
+        my $len = $row->{end}-$row->{begin};
         my $begin = $row->{begin};
         my $newBegin = $begin;
         my $newLen = $len;
@@ -218,8 +219,7 @@ if (scalar(@$bhMetacyc) > 0) {
     next if $row->{rxnId} eq "";
     $metacycrxn{ $row->{rxnId} } = 1;
     my $rxnName = $row->{rxnName} || "";
-    my $ecnums = $dbh->selectcol_arrayref("SELECT ecnum from MetacycReactionEC WHERE rxnId = ?",
-                                          {}, $row->{rxnId});
+    my $ecnums = $dbh->selectcol_arrayref("SELECT ecnum from MetacycReactionEC WHERE rxnId = ?", {}, $row->{rxnId});
     foreach my $ec (@$ecnums) {
       next if exists $ecSeen{$ec} || $ec eq "";
       $ecSeen{$ec} = 1;

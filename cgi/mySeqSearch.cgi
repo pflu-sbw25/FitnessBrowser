@@ -49,13 +49,13 @@ my $timestamp = int (gettimeofday * 1000);
 my $filename = $procId . $timestamp;
 my $tmpDir = Utils::tmp_dir();
 my $seqFile = "$tmpDir/$filename.fasta";
-my $blast = '../bin/blast/blastall';
+my $blast = 'bin/blast/blastall';
 my $myDB = Utils::blast_db();
 my $blastOut = "$tmpDir/$filename.blast.out";
 my $blastSort = "$tmpDir/$filename.blast.sort";
 my $seq;
 my $locusShow;
-my $fastacmd = '../bin/blast/fastacmd';
+my $fastacmd = 'bin/blast/fastacmd';
 die "No such executable: $fastacmd" unless -x $fastacmd;
 
 print $cgi->header; # must be printed before using fail()
@@ -81,7 +81,7 @@ if ($query =~ m/[A-Za-z]/) {
     my $id = "query";
     open(FAA,">",$seqFile) || die "Cannot write fasta file";
     print FAA Utils::formatFASTA($id,$seq);
-    close(FAA) || die "Error writing fasta file";    
+    close(FAA) || die "Error writing fasta file";
 } elsif ($locusSpec ne "") {
     Utils::fail($cgi,qq($locusSpec is invalid. Please enter correct gene name!)) unless ($locusSpec =~ m/^[A-Za-z0-9_]*$/);
 
